@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CatalinaOS Cyberpunk Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<div class="hud-overlay"></div>
+
+<body>
+  <div class="top-bar">
+    <div class="os-name">CatalinaOS 1.0</div>
+    <div class="system-stats">
+      <span class="cpu">CPU: <span id="cpu-usage">45%</span></span>
+      <span class="ram">RAM: <span id="ram-usage">3.2GB</span></span>
+      <span class="network">NET: <span id="network-speed">↑125kb/s ↓89kb/s</span></span>
+    </div>
+    <div class="status">
+      <span id="date">2025-08-02</span>
+      <span id="time">--:--</span>
+      <span class="wifi">📶</span>
+      <span class="battery">🔋 <span id="battery-level">85%</span></span>
+    </div>
+  </div>
+  
+  <!-- HUD y efectos visuales -->
+  <div class="hud-overlay"></div>
+  <div class="scan-lines"></div>
+  <div class="matrix-rain" id="matrixRain"></div>
+  
+  <!-- NUEVOS EFECTOS CYBERPUNK -->
+  <div class="cyberpunk-grid"></div>
+  <div class="holographic-overlay"></div>
+  <div class="data-streams"></div>
+  
+  <!-- Consola Matrix Lateral -->
+  <div class="matrix-console" id="matrixConsole">
+    <div class="console-header">
+      <span class="console-title">NEURAL_INTERFACE_v3.7</span>
+      <button class="console-toggle" id="consoleToggle">▶</button>
+    </div>
+    <div class="console-content">
+      <div class="console-output" id="consoleOutput">
+        <div class="console-line system">SYSTEM: Neural interface online</div>
+        <div class="console-line">Scanning environment...</div>
+        <div class="console-line success">Portfolio.exe loaded successfully</div>
+        <div class="console-line">Awaiting commands...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widgets Cyberpunk Flotantes -->
+  <div class="cyberpunk-widgets">
+    <!-- Widget de Tiempo -->
+    <div class="cyber-widget time-widget">
+      <div class="widget-title">CHRONOS</div>
+      <div class="digital-clock" id="digitalClock">--:--:--</div>
+      <div class="date-display" id="dateDisplay">----/--/--</div>
+      <div class="timezone">UTC-3 | SANTIAGO</div>
+    </div>
+    
+    <!-- Widget de Stats IA -->
+    <div class="cyber-widget ai-stats-widget">
+      <div class="widget-title">AI METRICS</div>
+      <div class="stat-display">
+        <div class="metric">
+          <span class="metric-label">NEURAL LOAD</span>
+          <div class="cyber-bar">
+            <div class="cyber-fill neural-fill" style="width: 78%"></div>
+          </div>
+          <span class="metric-value" id="neuralValue">78%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">PROCESSING</span>
+          <div class="cyber-bar">
+            <div class="cyber-fill process-fill" style="width: 92%"></div>
+          </div>
+          <span class="metric-value" id="processValue">92%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">MEMORY SYNC</span>
+          <div class="cyber-bar">
+            <div class="cyber-fill memory-fill" style="width: 65%"></div>
+          </div>
+          <span class="metric-value" id="memoryValue">65%</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- NUEVO: Carrusel Holográfico -->
+    <div class="cyber-widget holo-carousel">
+      <div class="carousel-header">HOLO-GALLERY</div>
+      <div class="carousel-container">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-icon">🖼️</div>
+              <div class="carousel-text">PORTFOLIO</div>
+            </div>
+            <div class="carousel-effect"></div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-icon">🚀</div>
+              <div class="carousel-text">PROJECTS</div>
+            </div>
+            <div class="carousel-effect"></div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-icon">🧠</div>
+              <div class="carousel-text">AI NEURAL</div>
+            </div>
+            <div class="carousel-effect"></div>
+          </div>
+          <div class="carousel-slide">
+            <div class="carousel-content">
+              <div class="carousel-icon">⚡</div>
+              <div class="carousel-text">CYBERPUNK</div>
+            </div>
+            <div class="carousel-effect"></div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <div class="carousel-dot active" data-slide="0"></div>
+        <div class="carousel-dot" data-slide="1"></div>
+        <div class="carousel-dot" data-slide="2"></div>
+        <div class="carousel-dot" data-slide="3"></div>
+      </div>
+    </div>
+    
+    <!-- Widget de Ubicación -->
+    <div class="cyber-widget location-widget">
+      <div class="widget-title">COORDINATES</div>
+      <div class="location-display">
+        <div class="coord-line">LAT: -33.4489° S</div>
+        <div class="coord-line">LON: -70.6693° W</div>
+        <div class="coord-line">ALT: 520m</div>
+        <div class="city-name">SANTIAGO_NEXUS</div>
+      </div>
+    </div>
+    
+    <!-- Widget de Conexión -->
+    <div class="cyber-widget network-widget">
+      <div class="widget-title">NET_STATUS</div>
+      <div class="network-display">
+        <div class="net-line">UPLINK: <span class="status-active">ACTIVE</span></div>
+        <div class="net-line">SPEED: 1.2Gbps</div>
+        <div class="net-line">PING: 15ms</div>
+        <div class="net-line">NODES: 47 connected</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="desktop">
+    <!-- Fila 1 -->
+    <div class="icon" data-window="sobreMi">
+      <div class="icon-img">�</div>
+      <div class="icon-label">SobreMi.exe</div>
+    </div>
+    <div class="icon" data-window="proyectos">
+      <div class="icon-img">�</div>
+      <div class="icon-label">Proyectos.app</div>
+    </div>
+    <div class="icon" data-window="contacto">
+      <div class="icon-img">�</div>
+      <div class="icon-label">Contacto.net</div>
+    </div>
+    <div class="icon" data-window="terminal">
+      <div class="icon-img">⚡</div>
+      <div class="icon-label">Terminal.cmd</div>
+    </div>
+    
+    <!-- Fila 2 -->
+    <div class="icon" data-window="skills">
+      <div class="icon-img">🧠</div>
+      <div class="icon-label">Skills.ai</div>
+    </div>
+    <div class="icon" data-window="experience">
+      <div class="icon-img">💼</div>
+      <div class="icon-label">Experience.log</div>
+    </div>
+    <div class="icon" data-window="achievements">
+      <div class="icon-img">🏆</div>
+      <div class="icon-label">Achievements.db</div>
+    </div>
+    <div class="icon" data-window="monitor">
+      <div class="icon-img">📊</div>
+      <div class="icon-label">Monitor.sys</div>
+    </div>
+    
+    <!-- Fila 3 - Nuevas características StarCraft/IA -->
+    <div class="icon" data-window="commandCenter">
+      <div class="icon-img">🏛️</div>
+      <div class="icon-label">Command.sc2</div>
+    </div>
+    <div class="icon" data-window="aiUnits">
+      <div class="icon-img">🤖</div>
+      <div class="icon-label">AI_Units.exe</div>
+    </div>
+    <div class="icon" data-window="gallery">
+      <div class="icon-img">🖼️</div>
+      <div class="icon-label">Gallery.img</div>
+    </div>
+    <div class="icon" data-window="neuralMap">
+      <div class="icon-img">🗺️</div>
+      <div class="icon-label">Neural_Map.sc2</div>
+    </div>
+    
+    <!-- Fila 4 - Nuevos elementos Cyberpunk -->
+    <div class="icon" data-window="holoGallery">
+      <div class="icon-img">📸</div>
+      <div class="icon-label">Holo_Photos.3d</div>
+    </div>
+    <div class="icon" data-window="spartanArmory">
+      <div class="icon-img">⚔️</div>
+      <div class="icon-label">Spartan.unsc</div>
+    </div>
+    <div class="icon" data-window="cyberSettings">
+      <div class="icon-img">⚙️</div>
+      <div class="icon-label">Config.cyber</div>
+    </div>
+    <div class="icon" data-window="quantumLab">
+      <div class="icon-img">🔬</div>
+      <div class="icon-label">Quantum.lab</div>
+    </div>
+  </div>
+
+  <!-- Panel de Control StarCraft flotante -->
+  <div class="starcraft-hud">
+    <div class="hud-section resources">
+      <div class="resource">
+        <span class="resource-icon">⚡</span>
+        <span class="resource-amount" id="energy">2500</span>
+      </div>
+      <div class="resource">
+        <span class="resource-icon">🧠</span>
+        <span class="resource-amount" id="neural">180</span>
+      </div>
+      <div class="resource">
+        <span class="resource-icon">💎</span>
+        <span class="resource-amount" id="knowledge">95</span>
+      </div>
+    </div>
+    <div class="hud-section minimap">
+      <div class="minimap-title">NEURAL NET</div>
+      <div class="minimap-grid">
+        <div class="node active"></div>
+        <div class="node active"></div>
+        <div class="node processing"></div>
+        <div class="node"></div>
+        <div class="node active"></div>
+        <div class="node active"></div>
+        <div class="node"></div>
+        <div class="node processing"></div>
+        <div class="node active"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Ventanita Matrix AI Interactiva -->
+  <div class="matrix-love-window" id="matrixHackerWindow">
+    <div class="matrix-love-header">
+      <span class="matrix-love-title">CATALINA_AI.exe</span>
+      <div class="matrix-love-controls">
+        <button class="matrix-btn" id="hackModeBtn">AI</button>
+        <div class="matrix-love-indicator">●</div>
+      </div>
+    </div>
+    <div class="matrix-love-content">
+      <div class="matrix-love-text" id="matrixTerminalContent">
+        <div class="ai-assistant">
+          <div class="ai-avatar">
+            🤖 
+          </div>
+          <div class="ai-message">
+            ¡Hola! Soy Catalina AI<br>
+            Especialista en Machine Learning<br>
+            y Deep Learning 🧠✨
+          </div>
+        </div>
+        <div class="love-line">catalina@neural-network:~$</div>
+        <div class="love-line command-line">
+          <span class="prompt">></span>
+          <span class="typing-effect" id="currentCommand">python train_model.py</span>
+        </div>
+        <div class="love-line response" id="commandResponse">Training neural network... 94% accuracy ✓</div>
+        <div class="love-line">
+          <span class="prompt">></span>
+          <span class="status-ready">AI READY FOR TASKS_</span>
+        </div>
+      </div>
+      <div class="ai-buttons">
+        <button class="ai-btn" data-cmd="ML">ML</button>
+        <button class="ai-btn" data-cmd="DL">DL</button>
+        <button class="ai-btn" data-cmd="RL">RL</button>
+        <button class="ai-btn" data-cmd="love">💖</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ventanas modales -->
+  <div class="window" id="sobreMi" role="dialog" aria-modal="true" aria-labelledby="sobreMiTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="sobreMiTitle">👤 Perfil de Usuario - Catalina.exe</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <div class="profile-section">
+        <div class="avatar-container">
+          <div class="avatar">👩‍💻</div>
+          <div class="status-indicator online"></div>
+        </div>
+        <div class="profile-info">
+          <h2>Catalina Olivares</h2>
+          <p class="title-role">Ingeniería Civil en Informática</p>
+          <p class="specialization">Especialización: Inteligencia Artificial</p>
+        </div>
+      </div>
+      <div class="typing-text">
+        <p>Desarrolladora apasionada por la IA y tecnologías emergentes. Especializada en crear soluciones inteligentes y eficientes que optimizan problemas complejos.</p>
+      </div>
+      <div class="tech-stack">
+        <h3>🛠️ Stack Tecnológico</h3>
+        <div class="tech-grid">
+          <span class="tech-item">Python</span>
+          <span class="tech-item">.NET</span>
+          <span class="tech-item">Spring Boot</span>
+          <span class="tech-item">Vue.js</span>
+          <span class="tech-item">Docker</span>
+          <span class="tech-item">TensorFlow</span>
+          <span class="tech-item">Scikit-learn</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="window" id="terminal" role="dialog" aria-modal="true" aria-labelledby="terminalTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="terminalTitle">⚡ Terminal Neural - CatalinaOS</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content terminal-content">
+      <div class="terminal-output" id="terminalOutput">
+        <div class="terminal-line">CatalinaOS Terminal v2.1 - Neural Interface Active</div>
+        <div class="terminal-line">Type 'help' for available commands</div>
+        <div class="terminal-line">────────────────────────────────────────</div>
+      </div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">catalina@neural:~$ </span>
+        <input type="text" class="terminal-input" id="terminalInput" placeholder="Escribe un comando...">
+      </div>
+    </div>
+  </div>
+
+  <div class="window" id="skills" role="dialog" aria-modal="true" aria-labelledby="skillsTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="skillsTitle">🧠 Neural Skills Matrix</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <div class="skills-matrix">
+        <div class="skill-category">
+          <h3>💻 Programación</h3>
+          <div class="skill-item">
+            <span>Python</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span>JavaScript</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span>Java</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>🤖 Inteligencia Artificial</h3>
+          <div class="skill-item">
+            <span>Machine Learning</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span>Deep Learning</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 82%"></div></div>
+          </div>
+          <div class="skill-item">
+            <span>Reinforcement Learning</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="window" id="monitor" role="dialog" aria-modal="true" aria-labelledby="monitorTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="monitorTitle">📊 System Monitor - Real Time</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content monitor-content">
+      <div class="monitor-grid">
+        <div class="monitor-widget">
+          <h4>CPU Usage</h4>
+          <div class="chart-container">
+            <canvas id="cpuChart" width="150" height="100"></canvas>
+          </div>
+        </div>
+        <div class="monitor-widget">
+          <h4>Network Activity</h4>
+          <div class="network-stats">
+            <div class="stat">Upload: <span id="uploadSpeed">125 KB/s</span></div>
+            <div class="stat">Download: <span id="downloadSpeed">89 KB/s</span></div>
+            <div class="stat">Latency: <span id="latency">23ms</span></div>
+          </div>
+        </div>
+        <div class="monitor-widget">
+          <h4>Process Activity</h4>
+          <div class="process-list">
+            <div class="process">neural_core.exe - 15% CPU</div>
+            <div class="process">ai_optimizer.py - 8% CPU</div>
+            <div class="process">portfolio.js - 3% CPU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="window" id="proyectos" role="dialog" aria-modal="true" aria-labelledby="proyectosTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="proyectosTitle">Proyectos Destacados</span>
+      <button class="close-btn" aria-label="Cerrar ventana">&times;</button>
+    </div>
+    <div class="window-content">
+      <div class="project">
+        <h3>🤖 Algoritmos RL para Optimización</h3>
+        <p>Reducción del tiempo en planificación de rutas en un 30%, optimización de recursos en 37%.</p>
+        <small>Python, Gymnasium, Stable Baselines3</small>
+      </div>
+      <div class="project">
+        <h3>🛒 E-commerce Pastelería</h3>
+        <p>Sitio web con carrito funcional y panel administrador para una pastelería local.</p>
+        <small>Vue.js, Spring Boot, AWS</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="window" id="contacto" role="dialog" aria-modal="true" aria-labelledby="contactoTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="contactoTitle">Contacto</span>
+      <button class="close-btn" aria-label="Cerrar ventana">&times;</button>
+    </div>
+    <div class="window-content">
+      <p>Escríbeme a: <a href="mailto:catalina.olivares.m@usach.cl">catalina.olivares.m@usach.cl</a></p>
+      <p>
+        <a href="https://www.linkedin.com/in/catalina-olivares-maturana-b30626274" target="_blank" rel="noopener">LinkedIn</a> |
+        <a href="https://github.com/catalinaolivares" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- NUEVAS VENTANAS STARCRAFT/IA -->
+  
+  <!-- Centro de Comando IA -->
+  <div class="window starcraft-window" id="commandCenter" role="dialog" aria-modal="true" aria-labelledby="commandTitle" tabindex="-1">
+    <div class="window-header starcraft-header">
+      <span id="commandTitle">🏛️ COMMAND CENTER - IA NEURAL NETWORK</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content command-center-content">
+      <div class="command-grid">
+        <div class="command-panel">
+          <h3>🎯 MISIÓN ACTUAL</h3>
+          <div class="mission-status">
+            <div class="mission-item">
+              <span class="status-indicator success"></span>
+              <span>Desarrollo de Portfolio Cyberpunk</span>
+              <span class="progress">COMPLETADO</span>
+            </div>
+            <div class="mission-item">
+              <span class="status-indicator active"></span>
+              <span>Optimización de Algoritmos RL</span>
+              <span class="progress">EN PROGRESO</span>
+            </div>
+            <div class="mission-item">
+              <span class="status-indicator pending"></span>
+              <span>Investigación en Deep Learning</span>
+              <span class="progress">PLANIFICADO</span>
+            </div>
+          </div>
+        </div>
+        <div class="command-panel">
+          <h3>⚡ PRODUCCIÓN IA</h3>
+          <div class="production-queue">
+            <div class="unit-production">
+              <div class="unit-icon">🤖</div>
+              <div class="unit-info">
+                <div class="unit-name">Neural Network v3.0</div>
+                <div class="progress-bar production">
+                  <div class="progress" style="width: 75%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="unit-production">
+              <div class="unit-icon">🧬</div>
+              <div class="unit-info">
+                <div class="unit-name">Genetic Algorithm</div>
+                <div class="progress-bar production">
+                  <div class="progress" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unidades IA -->
+  <div class="window starcraft-window" id="aiUnits" role="dialog" aria-modal="true" aria-labelledby="unitsTitle" tabindex="-1">
+    <div class="window-header starcraft-header">
+      <span id="unitsTitle">🤖 UNIDADES IA ESPECIALIZADAS</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content units-content">
+      <div class="units-grid">
+        <div class="ai-unit" data-unit="classifier">
+          <div class="unit-portrait">🎯</div>
+          <div class="unit-details">
+            <h4>CLASSIFIER NEURAL</h4>
+            <p>Especializada en clasificación de imágenes y patrones</p>
+            <div class="unit-stats">
+              <div class="stat">Precisión: 94%</div>
+              <div class="stat">Velocidad: Alta</div>
+              <div class="stat">Estado: Activa</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-unit" data-unit="optimizer">
+          <div class="unit-portrait">⚡</div>
+          <div class="unit-details">
+            <h4>OPTIMIZER RL</h4>
+            <p>Optimización de rutas y recursos mediante RL</p>
+            <div class="unit-stats">
+              <div class="stat">Eficiencia: 87%</div>
+              <div class="stat">Adaptabilidad: Excelente</div>
+              <div class="stat">Estado: Entrenando</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-unit" data-unit="predictor">
+          <div class="unit-portrait">🔮</div>
+          <div class="unit-details">
+            <h4>PREDICTOR ML</h4>
+            <p>Predicción de tendencias y análisis predictivo</p>
+            <div class="unit-stats">
+              <div class="stat">Exactitud: 91%</div>
+              <div class="stat">Horizonte: 30 días</div>
+              <div class="stat">Estado: Operativa</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-unit" data-unit="generator">
+          <div class="unit-portrait">🎨</div>
+          <div class="unit-details">
+            <h4>GENERATOR AI</h4>
+            <p>Generación de contenido y síntesis creativa</p>
+            <div class="unit-stats">
+              <div class="stat">Creatividad: 89%</div>
+              <div class="stat">Originalidad: Alta</div>
+              <div class="stat">Estado: Disponible</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Galería de Proyectos con Imágenes -->
+  <div class="window gallery-window" id="gallery" role="dialog" aria-modal="true" aria-labelledby="galleryTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="galleryTitle">🖼️ GALERÍA DE PROYECTOS - Visual Archive</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content gallery-content">
+      <div class="gallery-nav">
+        <button class="gallery-tab active" data-category="all">Todos</button>
+        <button class="gallery-tab" data-category="ai">IA & ML</button>
+        <button class="gallery-tab" data-category="web">Web Dev</button>
+        <button class="gallery-tab" data-category="mobile">Mobile</button>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item" data-category="ai">
+          <div class="project-image">
+            <div class="placeholder-img">🤖 RL OPTIMIZER</div>
+            <div class="image-overlay">
+              <h4>Algoritmos RL</h4>
+              <p>Optimización de rutas con Reinforcement Learning</p>
+              <div class="tech-tags">
+                <span>Python</span>
+                <span>Gymnasium</span>
+                <span>Stable Baselines3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="web">
+          <div class="project-image">
+            <div class="placeholder-img">🛒 E-COMMERCE</div>
+            <div class="image-overlay">
+              <h4>Pastelería Online</h4>
+              <p>Plataforma completa de e-commerce</p>
+              <div class="tech-tags">
+                <span>Vue.js</span>
+                <span>Spring Boot</span>
+                <span>AWS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="ai">
+          <div class="project-image">
+            <div class="placeholder-img">🧠 NEURAL NET</div>
+            <div class="image-overlay">
+              <h4>Red Neural Personalizada</h4>
+              <p>Clasificación de imágenes médicas</p>
+              <div class="tech-tags">
+                <span>TensorFlow</span>
+                <span>Keras</span>
+                <span>OpenCV</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="gallery-item" data-category="web">
+          <div class="project-image">
+            <div class="placeholder-img">💼 PORTFOLIO</div>
+            <div class="image-overlay">
+              <h4>Portfolio Cyberpunk</h4>
+              <p>Interfaz futurista interactiva</p>
+              <div class="tech-tags">
+                <span>JavaScript</span>
+                <span>CSS3</span>
+                <span>Particles.js</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mapa Neural -->
+  <div class="window starcraft-window" id="neuralMap" role="dialog" aria-modal="true" aria-labelledby="mapTitle" tabindex="-1">
+    <div class="window-header starcraft-header">
+      <span id="mapTitle">🗺️ MAPA NEURAL - Topology Viewer</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content neural-map-content">
+      <div class="map-controls">
+        <button class="map-btn active">Capa de Entrada</button>
+        <button class="map-btn">Capas Ocultas</button>
+        <button class="map-btn">Capa de Salida</button>
+      </div>
+      <div class="neural-network-viz">
+        <div class="layer input-layer">
+          <div class="neuron active" data-info="Input: Datos de entrenamiento"></div>
+          <div class="neuron active" data-info="Input: Features extraídas"></div>
+          <div class="neuron active" data-info="Input: Parámetros normalizados"></div>
+          <div class="neuron active" data-info="Input: Validación cruzada"></div>
+        </div>
+        <div class="layer hidden-layer">
+          <div class="neuron processing" data-info="Hidden: Procesamiento deep learning"></div>
+          <div class="neuron processing" data-info="Hidden: Activación ReLU"></div>
+          <div class="neuron processing" data-info="Hidden: Dropout regularization"></div>
+          <div class="neuron processing" data-info="Hidden: Batch normalization"></div>
+          <div class="neuron processing" data-info="Hidden: Backpropagation"></div>
+        </div>
+        <div class="layer output-layer">
+          <div class="neuron success" data-info="Output: Clasificación"></div>
+          <div class="neuron success" data-info="Output: Confianza 94%"></div>
+        </div>
+        <div class="connections">
+          <!-- Las conexiones se generarán con JavaScript -->
+        </div>
+      </div>
+      <div class="network-stats">
+        <div class="stat-item">
+          <span class="stat-label">Exactitud:</span>
+          <span class="stat-value">94.2%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Loss:</span>
+          <span class="stat-value">0.0847</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Épocas:</span>
+          <span class="stat-value">150/200</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUEVAS VENTANAS CYBERPUNK EXTREMAS -->
+  
+  <!-- Galería Holográfica de Fotos -->
+  <div class="window holo-window" id="holoGallery" role="dialog" aria-modal="true" aria-labelledby="holoTitle" tabindex="-1">
+    <div class="window-header holo-header">
+      <span id="holoTitle">📸 HOLOGRAPHIC ARCHIVE - Personal Gallery</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content holo-content">
+      <div class="holo-controls">
+        <button class="holo-btn active">Perfil</button>
+        <button class="holo-btn">Graduación</button>
+        <button class="holo-btn">Proyectos</button>
+        <button class="holo-btn">Eventos</button>
+      </div>
+      <div class="holo-grid">
+        <div class="holo-frame">
+          <div class="holo-image">
+            <div class="photo-placeholder">👩‍🎓 GRADUACIÓN</div>
+            <div class="holo-effect"></div>
+          </div>
+          <div class="photo-info">Ceremonia de Graduación - Ing. Civil Informática</div>
+        </div>
+        <div class="holo-frame">
+          <div class="holo-image">
+            <div class="photo-placeholder">💻 HACKATHON</div>
+            <div class="holo-effect"></div>
+          </div>
+          <div class="photo-info">Hackathon Nacional - 1er Lugar IA</div>
+        </div>
+        <div class="holo-frame">
+          <div class="holo-image">
+            <div class="photo-placeholder">🏆 PREMIO</div>
+            <div class="holo-effect"></div>
+          </div>
+          <div class="photo-info">Premio Excelencia Académica</div>
+        </div>
+        <div class="holo-frame">
+          <div class="holo-image">
+            <div class="photo-placeholder">🤝 EQUIPO</div>
+            <div class="holo-effect"></div>
+          </div>
+          <div class="photo-info">Equipo de Desarrollo - E-commerce</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arsenal Spartan (Estilo Halo) -->
+  <div class="window spartan-window" id="spartanArmory" role="dialog" aria-modal="true" aria-labelledby="spartanTitle" tabindex="-1">
+    <div class="window-header spartan-header">
+      <span id="spartanTitle">⚔️ SPARTAN ARMORY - Skill Arsenal</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content spartan-content">
+      <div class="spartan-grid">
+        <div class="weapon-slot">
+          <div class="weapon-icon">🎯</div>
+          <div class="weapon-info">
+            <h4>PRECISION RIFLE</h4>
+            <p>Machine Learning</p>
+            <div class="weapon-stats">
+              <div class="stat">Accuracy: 94%</div>
+              <div class="stat">Range: Deep Learning</div>
+              <div class="stat">Ammo: TensorFlow</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="weapon-slot">
+          <div class="weapon-icon">⚡</div>
+          <div class="weapon-info">
+            <h4>PLASMA RIFLE</h4>
+            <p>Algorithm Optimization</p>
+            <div class="weapon-stats">
+              <div class="stat">Power: 87%</div>
+              <div class="stat">Speed: Real-time</div>
+              <div class="stat">Core: Reinforcement Learning</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="weapon-slot">
+          <div class="weapon-icon">🛡️</div>
+          <div class="weapon-info">
+            <h4>ENERGY SHIELD</h4>
+            <p>Data Protection</p>
+            <div class="weapon-stats">
+              <div class="stat">Integrity: 98%</div>
+              <div class="stat">Type: Encryption</div>
+              <div class="stat">Protocol: Secure</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="weapon-slot">
+          <div class="weapon-icon">🚀</div>
+          <div class="weapon-info">
+            <h4>JETPACK</h4>
+            <p>Full-Stack Development</p>
+            <div class="weapon-stats">
+              <div class="stat">Mobility: 100%</div>
+              <div class="stat">Fuel: Vue.js + Spring</div>
+              <div class="stat">Boost: Cloud Deploy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="spartan-status">
+        <div class="status-bar">
+          <span>SPARTAN STATUS: ACTIVE</span>
+          <span>MISSION READY: ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Laboratorio Cuántico -->
+  <div class="window quantum-window" id="quantumLab" role="dialog" aria-modal="true" aria-labelledby="quantumTitle" tabindex="-1">
+    <div class="window-header quantum-header">
+      <span id="quantumTitle">🔬 QUANTUM LAB - Research Division</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content quantum-content">
+      <div class="lab-interface">
+        <div class="quantum-display">
+          <h3>QUANTUM EXPERIMENTS</h3>
+          <div class="experiment-grid">
+            <div class="experiment-card">
+              <div class="experiment-icon">🧬</div>
+              <h4>Genetic Algorithms</h4>
+              <div class="progress-quantum">
+                <div class="quantum-bar" style="width: 76%"></div>
+              </div>
+              <span class="experiment-status">Running...</span>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-icon">🌌</div>
+              <h4>Neural Evolution</h4>
+              <div class="progress-quantum">
+                <div class="quantum-bar" style="width: 89%"></div>
+              </div>
+              <span class="experiment-status">Optimizing...</span>
+            </div>
+            
+            <div class="experiment-card">
+              <div class="experiment-icon">⚛️</div>
+              <h4>Quantum Computing</h4>
+              <div class="progress-quantum">
+                <div class="quantum-bar" style="width: 34%"></div>
+              </div>
+              <span class="experiment-status">Research...</span>
+            </div>
+          </div>
+        </div>
+        <div class="lab-console">
+          <h4>LAB TERMINAL</h4>
+          <div class="lab-output">
+            <div class="lab-line">Quantum state initialized...</div>
+            <div class="lab-line">Superposition achieved: 87%</div>
+            <div class="lab-line">Entanglement stable</div>
+            <div class="lab-line success">Experiment protocol loaded</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuración Cyberpunk -->
+  <div class="window cyber-settings-window" id="cyberSettings" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" tabindex="-1">
+    <div class="window-header cyber-header">
+      <span id="settingsTitle">⚙️ CYBER SETTINGS - System Configuration</span>
+      <div class="window-controls">
+        <button class="minimize-btn">_</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">&times;</button>
+      </div>
+    </div>
+    <div class="window-content settings-content">
+      <div class="settings-grid">
+        <div class="setting-category">
+          <h3>🎨 VISUAL EFFECTS</h3>
+          <div class="setting-item">
+            <label>Matrix Rain</label>
+            <div class="cyber-switch active" data-setting="matrix"></div>
+          </div>
+          <div class="setting-item">
+            <label>Scan Lines</label>
+            <div class="cyber-switch active" data-setting="scanlines"></div>
+          </div>
+          <div class="setting-item">
+            <label>Holographic Overlay</label>
+            <div class="cyber-switch active" data-setting="holo"></div>
+          </div>
+        </div>
+        
+        <div class="setting-category">
+          <h3>🔊 AUDIO SYSTEM</h3>
+          <div class="setting-item">
+            <label>Cyberpunk SFX</label>
+            <div class="cyber-switch active" data-setting="sfx"></div>
+          </div>
+          <div class="setting-item">
+            <label>Ambient Sounds</label>
+            <div class="cyber-switch" data-setting="ambient"></div>
+          </div>
+        </div>
+        
+        <div class="setting-category">
+          <h3>🌐 NETWORK</h3>
+          <div class="setting-item">
+            <label>Neural Link</label>
+            <div class="cyber-switch active" data-setting="neural"></div>
+          </div>
+          <div class="setting-item">
+            <label>Quantum Sync</label>
+            <div class="cyber-switch active" data-setting="quantum"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de tareas -->
+  <div class="taskbar">
+    <div class="taskbar-start">
+      <button class="start-button">⚡ INICIO</button>
+    </div>
+    <div class="taskbar-apps" id="taskbarApps">
+      <!-- Aplicaciones abiertas aparecerán aquí -->
+    </div>
+    <div class="taskbar-tray">
+      <div class="notification-area">
+        <span class="notification-icon">🔔</span>
+        <span class="connection-status">🌐</span>
+        <span class="security-status">🛡️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALES FALTANTES -->
+  
+  <!-- Experience Modal -->
+  <div class="window" id="experience" role="dialog" aria-modal="true" aria-labelledby="experienceTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="experienceTitle">💼 Experience.log</span>
+      <div class="window-controls">
+        <button class="minimize-btn">−</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">×</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <h3>EXPERIENCIA PROFESIONAL</h3>
+      <div class="experience-timeline">
+        <div class="experience-item">
+          <h4>Ingeniera de Software - Tech Corp</h4>
+          <span>2023 - Presente</span>
+          <p>Desarrollo de aplicaciones IA y optimización de sistemas.</p>
+        </div>
+        <div class="experience-item">
+          <h4>Desarrolladora Full Stack - StartupAI</h4>
+          <span>2022 - 2023</span>
+          <p>Implementación de algoritmos de machine learning en producción.</p>
+        </div>
+        <div class="experience-item">
+          <h4>Analista de Datos - DataCorp</h4>
+          <span>2021 - 2022</span>
+          <p>Análisis predictivo y visualización de datos masivos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Achievements Modal -->
+  <div class="window" id="achievements" role="dialog" aria-modal="true" aria-labelledby="achievementsTitle" tabindex="-1">
+    <div class="window-header">
+      <span id="achievementsTitle">🏆 Achievements.db</span>
+      <div class="window-controls">
+        <button class="minimize-btn">−</button>
+        <button class="maximize-btn">□</button>
+        <button class="close-btn">×</button>
+      </div>
+    </div>
+    <div class="window-content">
+      <h3>LOGROS Y CERTIFICACIONES</h3>
+      <div class="achievements-grid">
+        <div class="achievement-card">
+          <div class="achievement-icon">🎓</div>
+          <h4>Ingeniera Civil Informática</h4>
+          <p>Universidad de Santiago de Chile</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon">🤖</div>
+          <h4>Certificación TensorFlow</h4>
+          <p>Google AI Platform</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon">☁️</div>
+          <h4>AWS Solutions Architect</h4>
+          <p>Amazon Web Services</p>
+        </div>
+        <div class="achievement-card">
+          <div class="achievement-icon">⚡</div>
+          <h4>Algoritmos RL Avanzados</h4>
+          <p>Optimización 30% más eficiente</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partículas estilo HUD -->
+<div id="tsparticles"></div>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@3.3.0/tsparticles.bundle.min.js"></script>
+<script>
+  tsParticles.load("tsparticles", "particles.json");
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

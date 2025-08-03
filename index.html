@@ -1,56 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Catalina Olivares – Portafolio</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="script.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CatalinaOS - Neural Interface Boot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="intro.js" defer></script>
 </head>
-<body>
-  <header class="hero">
-    <h1>¡Hola! Soy Catalina Olivares</h1>
-    <p>Ingeniera en formación con enfoque en IA, optimización y tecnologías modernas.</p>
-    <a href="#proyectos" class="btn">Ver proyectos destacados</a>
-  </header>
-
-  <section id="sobre-mi">
-    <h2>Sobre mí</h2>
-    <p>
-      Egresada de Ingeniería Civil en Informática, con experiencia en Inteligencia Artificial, 
-      especialmente en aprendizaje por refuerzo aplicado a soluciones de optimización NP-hard y 
-      manejo avanzado en Python. Me destaco por aprender con rapidez y adaptarme a nuevos desafíos.
-    </p>
-    <ul class="skills">
-      <li>Python</li>
-      <li>.NET</li>
-      <li>Spring Boot</li>
-      <li>Vue.js</li>
-      <li>Docker</li>
-      <li>TensorFlow</li>
-      <li>Scikit-learn</li>
-    </ul>
-  </section>
-
-  <section id="proyectos">
-    <h2>Proyectos</h2>
-    <div class="project-card">
-      <h3>Algoritmos RL para optimización</h3>
-      <p>Solución de planificación de rutas con reducción de tiempo en 30% y recursos 37%.</p>
-      <small>Python, Gymnasium, Stable Baselines3</small>
+<body class="booting">
+  <!-- Efectos de fondo cyberpunk -->
+  <div class="matrix-rain-bg" id="matrixRainBg"></div>
+  <div class="cyberpunk-grid-bg"></div>
+  <div class="scan-lines-bg"></div>
+  <div class="hud-overlay-bg"></div>
+  
+  <!-- HUD Superior -->
+  <div class="intro-hud">
+    <div class="hud-left">
+      <span class="system-id">NEURAL-ID: CAT-7042</span>
+      <span class="connection-status">🌐 UPLINK ACTIVE</span>
     </div>
-    <div class="project-card">
-      <h3>Sitio E-commerce de Pastelería</h3>
-      <p>Página para ventas online con carrito y dashboard admin.</p>
-      <small>Vue.js, Spring Boot, AWS</small>
+    <div class="hud-center">
+      <span class="current-time" id="currentTime">--:--:--</span>
     </div>
-  </section>
+    <div class="hud-right">
+      <span class="system-temp">CPU: 47°C</span>
+      <span class="power-level">PWR: 98%</span>
+    </div>
+  </div>
 
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <p>¿Quieres trabajar conmigo? Escríbeme a <a href="mailto:catalina.olivares.m@usach.cl">catalina.olivares.m@usach.cl</a></p>
-    <p><a href="https://www.linkedin.com/in/catalina-olivares-maturana-b30626274">LinkedIn</a> | <a href="https://github.com/">GitHub</a></p>
-  </section>
+  <!-- Terminal Hacker Profesional -->
+  <div class="hacker-terminal" id="hackerTerminal">
+    <div class="terminal-window">
+      <div class="terminal-window-header">
+        <div class="terminal-buttons">
+          <span class="btn-close"></span>
+          <span class="btn-minimize"></span>
+          <span class="btn-maximize"></span>
+        </div>
+        <div class="terminal-title">root@kali:~# NEURAL_INTERFACE</div>
+      </div>
+      <div class="terminal-window-content">
+        <div class="terminal-output" id="hackerOutput">
+          <div class="terminal-line">
+            <span class="prompt">root@kali:~#</span>
+            <span class="command">nmap -sS catalina.neural.net</span>
+          </div>
+          <div class="terminal-line response">PORT     STATE SERVICE</div>
+          <div class="terminal-line response">22/tcp   open  ssh</div>
+          <div class="terminal-line response">80/tcp   open  http</div>
+          <div class="terminal-line response">443/tcp  open  https</div>
+          <div class="terminal-line response success">Neural interface: SECURED ✓</div>
+          <div class="terminal-line">
+            <span class="prompt">root@kali:~#</span>
+            <span class="command typing" id="typingCommand"></span>
+            <span class="cursor">_</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="terminal-glow"></div>
+  </div>
+
+  <!-- Scanner de Reconocimiento -->
+  <div class="bio-scanner" id="bioScanner">
+    <div class="scanner-frame">
+      <div class="scan-target"></div>
+      <div class="scan-beam"></div>
+      <div class="scanner-corners">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+      </div>
+    </div>
+    <div class="scanner-info">
+      <div class="scan-line">BIOMETRIC SCAN: ACTIVE</div>
+      <div class="scan-line">USER: CATALINA OLIVARES</div>
+      <div class="scan-line">STATUS: <span class="status-green">AUTHORIZED</span></div>
+    </div>
+  </div>
+
+  <div class="boot-sequence" id="bootSequence">
+    <div class="terminal-header">
+      <span class="terminal-title">🤖 CATALINA-AI Neural Interface v3.7</span>
+      <span class="terminal-status">█ NEURAL LINK ACTIVE</span>
+    </div>
+    <div class="boot-content">
+      <div class="boot-line" data-delay="0">▶ [INICIANDO SISTEMA NEURAL CATALINA-AI...]</div>
+      <div class="boot-line" data-delay="800">▶ Verificando integridad del núcleo ████████████ 100%</div>
+      <div class="boot-line" data-delay="1200">▶ Activando robot guardian ████████████ 100%</div>
+      <div class="boot-line" data-delay="1600">▶ Cargando protocolos cyberpunk ████████████ 100%</div>
+      <div class="boot-line" data-delay="2000">▶ Estableciendo Matrix neural ████████████ 100%</div>
+      <div class="boot-line" data-delay="2400">▶ Sincronizando IA ████████████ 100%</div>
+      <div class="boot-line" data-delay="2800">▶ Inicializando scanner biométrico ████████████ 100%</div>
+      <div class="boot-line" data-delay="3200">▶ Cargando hologramas 3D ████████████ 100%</div>
+      <div class="boot-line" data-delay="4000">▶ Estableciendo conexión neural ████████████ 100%</div>
+      <div class="boot-line cursor" data-delay="4800">▶ Presiona cualquier tecla para acceder a la Matrix_</div>
+    </div>
+  </div>
+
+  <div class="intro-container hidden" id="introContainer">
+    <div class="cyber-welcome">
+      <div class="glitch-text" data-text="NEURAL INTERFACE">
+        NEURAL INTERFACE
+      </div>
+      <h1 class="cyber-title">
+        <span class="title-main">CATALINA</span>
+        <span class="title-sub">OLIVARES</span>
+        <span class="title-tag">.AI</span>
+      </h1>
+      <div class="cyber-subtitle">
+        <span class="cyber-line">▶ INGENIERÍA CIVIL INFORMÁTICA</span>
+        <span class="cyber-line">▶ ESPECIALIZACIÓN: INTELIGENCIA ARTIFICIAL</span>
+        <span class="cyber-line">▶ PORTFOLIO CYBERPUNK NEURAL</span>
+      </div>
+      
+      <!-- Botón de entrada cyberpunk -->
+      <div class="cyber-button-container">
+        <button class="cyber-enter-btn" onclick="enterDesktop()">
+          <span class="btn-text">🤖 ACCEDER AL SISTEMA</span>
+          <span class="btn-glow"></span>
+          <div class="btn-particles"></div>
+        </button>
+      </div>
+      
+      <!-- Stats cyberpunk -->
+      <div class="cyber-stats">
+        <div class="stat-item">
+          <span class="stat-label">NEURAL LOAD</span>
+          <div class="stat-bar">
+            <div class="stat-fill" style="width: 85%"></div>
+          </div>
+          <span class="stat-value">85%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">AI READY</span>
+          <div class="stat-bar">
+            <div class="stat-fill" style="width: 96%"></div>
+          </div>
+          <span class="stat-value">96%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">CYBERPUNK</span>
+          <div class="stat-bar">
+            <div class="stat-fill" style="width: 100%"></div>
+          </div>
+          <span class="stat-value">100%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partículas cyberpunk -->
+  <div class="cyber-particles" id="cyberParticles"></div>
+
+  <!-- Sonidos cyberpunk -->
+  <audio id="bootSound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMcCjuK0+/XhC4FMY/U8tiJOQcYY7zr7p5NEQ5Mq+Xxsm0gDUtv1/jTgjAGMIbO8N2JOAcXY7zr7qFQFhxLqOPxtmQgDDWV2e/lgSsJK2e+8+ORYQ4UWK/s76JTGGxXr+XwtGQgOhFOQDHh8O2QQAoPXrPp66JTGWpdqOTwsGYfFFew5+6eOQ0XJG/F8tyOPQkSW7Xj75xFEhNFQFVGNl1hd5alr5hTQ1+mtd2leh=="/>
+  </audio>
+  <audio id="clickSound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRn4GAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YWoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt555NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMcCjuK0+/XhC4FMY/U8tiJOQcYY7zr7p5NEQ5Mq+Xxsm0gDT2O1/LNeSsFMIbO8N2JOAcXY7zr7qFQFhxLqOPxtmQgDDWV2e/lgSsJQhxOQAsZKXvG89yOPQoRW7Pp66JTGWpdqOTwsGYfFFew5+6eOQ0XJG/F8tyOPQkTWK+85i4KG1i47uGGPQ8UP2XF59yOPQkSW7Xj751FEhNFp9vssF0jCT2O1e/XhC4FQQxOMhh1/LJLK3bH8t2JOAcVTlE+YKzs1Wd"/>
+  </audio>
 </body>
 </html>

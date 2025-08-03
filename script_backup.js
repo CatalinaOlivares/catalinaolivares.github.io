@@ -19,21 +19,6 @@ let neuralStats = {
     memory: 45
 };
 
-// Sistema de sonidos cyberpunk
-const cyberpunkSounds = {
-    click: 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+KhYqFbF1fdJivrJBhNjVgodDbq2EcBj',
-    open: 'data:audio/wav;base64,UklGRpQDAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YXQDAAA/f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3//f3',
-    close: 'data:audio/wav;base64,UklGRrQDAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YZADAADy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v'
-};
-
-function playSound(soundType) {
-    if (cyberpunkSounds[soundType]) {
-        const audio = new Audio(cyberpunkSounds[soundType]);
-        audio.volume = 0.3;
-        audio.play().catch(e => console.log('Audio play failed:', e));
-    }
-}
-
 // Matrix console functionality
 function toggleMatrixConsole() {
     const console = document.getElementById('matrixConsole');
@@ -41,10 +26,8 @@ function toggleMatrixConsole() {
     
     if (isOpen) {
         console.classList.remove('open');
-        playSound('close');
     } else {
         console.classList.add('open');
-        playSound('open');
         if (!consoleInitialized) {
             initializeMatrixConsole();
         }
@@ -207,7 +190,7 @@ function switchHoloView(view) {
     event.target.classList.add('active');
     
     updateHoloGallery();
-    playSound('click');
+
 }
 
 function updateHoloGallery() {
@@ -265,7 +248,7 @@ function initHoloCarousel() {
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             goToSlide(index);
-            playSound('click');
+        
         });
     });
     
@@ -301,7 +284,7 @@ function selectWeapon(weaponName) {
     slots.forEach(slot => slot.classList.remove('selected'));
     event.currentTarget.classList.add('selected');
     
-    playSound('click');
+
     
     // Update status
     const statusElement = document.querySelector('.spartan-status .status-bar');
@@ -324,7 +307,7 @@ function toggleSetting(settingName) {
         toggle.classList.add('active');
     }
     
-    playSound('click');
+
     
     // Apply setting effects
     switch(settingName) {
@@ -350,7 +333,7 @@ function toggleSetting(settingName) {
 
 // Original modal functions
 function showModal(modalId) {
-    playSound('open');
+
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add('show');
@@ -365,7 +348,7 @@ function showModal(modalId) {
 }
 
 function hideModal(modalId) {
-    playSound('close');
+
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('show');
@@ -530,7 +513,7 @@ function updateSystemStats() {
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         event.target.classList.remove('show');
-        playSound('close');
+    
     }
 }
 
@@ -554,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add hover effects
         icon.addEventListener('mouseenter', function() {
-            playSound('click');
+        
         });
     });
     
@@ -695,29 +678,22 @@ class CyberpunkAudioSystem {
     }
     
     init() {
-        // Obtener referencias a los elementos de audio
-        this.sounds.open = document.getElementById('openSound');
-        this.sounds.close = document.getElementById('closeSound');
-        this.sounds.hover = document.getElementById('hoverSound');
-        this.sounds.click = document.getElementById('clickSound');
-        this.sounds.ambient = document.getElementById('cyberpunkAmbient');
-        this.sounds.matrixBeep = document.getElementById('matrixBeep');
-        this.sounds.terminalType = document.getElementById('terminalType');
-        this.sounds.neuralPulse = document.getElementById('neuralPulse');
-        this.sounds.powerUp = document.getElementById('powerUp');
-        this.sounds.glitch = document.getElementById('glitchEffect');
-        
-        // Configurar volumen inicial
-        this.setVolume(this.volume);
+        // Inicializar Audio Context
+        try {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.log('Web Audio API not supported');
+            return;
+        }
         
         // Configurar controles
         this.setupControls();
         
-        // Iniciar música ambiente después de interacción del usuario
-        this.setupAmbientMusic();
-        
         // Configurar eventos de sonido
         this.setupSoundEvents();
+        
+        // Crear sonidos sintéticos
+        this.createSynthSounds();
     }
     
     setupControls() {
@@ -736,16 +712,15 @@ class CyberpunkAudioSystem {
         }
     }
     
-    setupAmbientMusic() {
-        // Iniciar música ambiente cuando el usuario interactúe por primera vez
+    setupSoundEvents() {
+        // Activar audio context en primera interacción
         document.addEventListener('click', () => {
-            if (!this.ambientPlaying && this.sounds.ambient) {
-                this.playAmbient();
+            if (this.audioContext && this.audioContext.state === 'suspended') {
+                this.audioContext.resume();
+                this.showSoundNotification('Audio System Activated!');
             }
         }, { once: true });
-    }
-    
-    setupSoundEvents() {
+        
         // Sonidos en hover de iconos
         document.querySelectorAll('.icon').forEach(icon => {
             icon.addEventListener('mouseenter', () => this.play('hover'));
@@ -771,10 +746,254 @@ class CyberpunkAudioSystem {
             terminalInput.addEventListener('keypress', () => this.play('terminalType'));
         }
         
+                // Configurar eventos de sonido
+        this.setupSoundEvents();
+        
         // Sonido de power up al cargar la página
         window.addEventListener('load', () => {
             setTimeout(() => this.play('powerUp'), 1000);
         });
+    }
+    
+    createSynthSounds() {
+        if (!this.audioContext) return;
+        
+        // Definir los sonidos sintéticos
+        this.sounds = {
+            click: () => this.createBeep(800, 0.1, 'square'),
+            hover: () => this.createBeep(400, 0.05, 'sine'),
+            open: () => this.createRiseSound(200, 600, 0.3),
+            close: () => this.createFallSound(600, 200, 0.3),
+            matrixBeep: () => this.createMatrixBeep(),
+            terminalType: () => this.createTypeSound(),
+            neuralPulse: () => this.createPulseSound(),
+            powerUp: () => this.createPowerUpSound(),
+            glitch: () => this.createGlitchSound()
+        };
+    }
+    
+    createBeep(frequency, duration, type = 'sine') {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.value = frequency;
+        oscillator.type = type;
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + duration);
+    }
+    
+    createRiseSound(startFreq, endFreq, duration) {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(startFreq, this.audioContext.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(endFreq, this.audioContext.currentTime + duration);
+        oscillator.type = 'sawtooth';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + duration);
+    }
+    
+    createFallSound(startFreq, endFreq, duration) {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(startFreq, this.audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(endFreq, this.audioContext.currentTime + duration);
+        oscillator.type = 'triangle';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + duration);
+    }
+    
+    createMatrixBeep() {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.value = 1200;
+        oscillator.type = 'square';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.4, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.15);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 0.15);
+    }
+    
+    createTypeSound() {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.value = 600 + Math.random() * 200;
+        oscillator.type = 'square';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.1, this.audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.05);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 0.05);
+    }
+    
+    createPulseSound() {
+        if (!this.audioContext || this.isMuted) return;
+        
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = 300 - (i * 50);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, this.audioContext.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.2);
+                
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 0.2);
+            }, i * 100);
+        }
+    }
+    
+    createPowerUpSound() {
+        if (!this.audioContext || this.isMuted) return;
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(100, this.audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(800, this.audioContext.currentTime + 0.5);
+        oscillator.type = 'sawtooth';
+        
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(this.volume * 0.3, this.audioContext.currentTime + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.5);
+        
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 0.5);
+    }
+    
+    createGlitchSound() {
+        if (!this.audioContext || this.isMuted) return;
+        
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = Math.random() * 2000 + 200;
+                oscillator.type = 'square';
+                
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(this.volume * 0.2, this.audioContext.currentTime + 0.01);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.03);
+                
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 0.03);
+            }, i * 20);
+        }
+    }
+    
+    play(soundName) {
+        if (this.isMuted || !this.sounds[soundName]) return;
+        
+        // Reanudar audio context si está suspendido
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+        
+        // Ejecutar el sonido sintético
+        this.sounds[soundName]();
+        
+        // Crear visualización de audio
+        this.createAudioVisualization();
+        
+        // Mostrar notificación
+        this.showSoundNotification(`Playing: ${soundName}`);
+    }
+    
+    playAmbient() {
+        // Para ambiente, usaremos un loop de sonidos suaves
+        if (this.ambientPlaying || this.isMuted) return;
+        
+        this.ambientPlaying = true;
+        this.showSoundNotification('Cyberpunk Ambient Active');
+        
+        const playAmbientLoop = () => {
+            if (!this.ambientPlaying || this.isMuted) return;
+            
+            // Crear sonido ambiente suave
+            if (this.audioContext && Math.random() < 0.3) {
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = 50 + Math.random() * 100;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(this.volume * 0.05, this.audioContext.currentTime + 1);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 3);
+                
+                oscillator.start();
+                oscillator.stop(this.audioContext.currentTime + 3);
+            }
+            
+            setTimeout(playAmbientLoop, 2000 + Math.random() * 3000);
+        };
+        
+        playAmbientLoop();
     }
     
     play(soundName) {
@@ -800,26 +1019,12 @@ class CyberpunkAudioSystem {
     }
     
     stopAmbient() {
-        if (this.sounds.ambient) {
-            this.sounds.ambient.pause();
-            this.sounds.ambient.currentTime = 0;
-            this.ambientPlaying = false;
-        }
+        this.ambientPlaying = false;
+        this.showSoundNotification('Ambient Audio Stopped');
     }
     
     setVolume(volume) {
         this.volume = Math.max(0, Math.min(1, volume));
-        
-        // Aplicar volumen a todos los sonidos
-        Object.values(this.sounds).forEach(sound => {
-            if (sound) {
-                if (sound === this.sounds.ambient) {
-                    sound.volume = this.volume * 0.3; // Ambiente más suave
-                } else {
-                    sound.volume = this.volume;
-                }
-            }
-        });
         
         // Actualizar slider
         const volumeSlider = document.getElementById('volumeSlider');
